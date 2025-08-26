@@ -1,13 +1,21 @@
 import { router } from 'expo-router';
 import { getAuth } from 'firebase/auth';
+import { useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { auth } from '../../FirebaseConfig';
 
 export default function TabOneScreen() {
 
-  getAuth().onAuthStateChanged((user) => {
-    if (!user) router.replace('/');
-  });
+  useEffect(() => {
+    const unsubscribe = getAuth().onAuthStateChanged((user) => {
+      if (!user) {
+        router.replace("./");
+      }
+    });
+
+    // cleanup: listener kaldırılır
+    return () => unsubscribe();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -24,37 +32,31 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FAFAFA', 
+    backgroundColor: '#FAFAFA',
   },
   title: {
-    fontSize: 28, 
-    fontWeight: '800', 
-    color: '#1A237E', 
-    marginBottom: 40, 
-  },
-  separator: {
-    marginVertical: 30,
-    height: 2, 
-    width: '80%',
-    backgroundColor: '#E8EAF6', 
+    fontSize: 28,
+    fontWeight: '800',
+    color: '#1A237E',
+    marginBottom: 40,
   },
   button: {
     width: '90%',
-    backgroundColor: '#5C6BC0', 
+    backgroundColor: '#5C6BC0',
     padding: 20,
-    borderRadius: 15, 
+    borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#5C6BC0',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.4,
     shadowRadius: 5,
-    elevation: 5, 
-    marginTop: 15, 
+    elevation: 5,
+    marginTop: 15,
   },
   text: {
-    color: '#FFFFFF', 
-    fontSize: 18, 
+    color: '#FFFFFF',
+    fontSize: 18,
     fontWeight: '600',
   }
 });
