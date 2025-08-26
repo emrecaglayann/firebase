@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# firebase
+# Firebase
 =======
 # Welcome to your Expo app 👋
 
